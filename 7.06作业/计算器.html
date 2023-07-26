@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./vue.js"></script>
+    <style>
+      #box {
+        width: 500px;
+        margin: auto;
+      }
+      #noe {
+        width: 200px;
+        padding: 30px;
+
+        background-color: pink;
+        text-align: center;
+      }
+      #noe input {
+        width: 80px;
+        border: none;
+        text-align: center;
+      }
+      #noe1 {
+        width: 200px;
+        padding: 30px;
+        background-color: antiquewhite;
+        display: flex;
+        flex-wrap: wrap;
+      }
+      #noe1 button {
+        width: 40px;
+        margin: 10px;
+      }
+      #n1 {
+        background-color: white;
+        height: 50px;
+        line-height: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="box">
+      <div id="noe">
+        <div id="n1">
+          <input type="text" v-model="inputValue" />={{ result }}
+        </div>
+      </div>
+
+      <div id="noe1">
+        <button v-for="num in numbers" v-on:click="input(num)">
+          {{ num }}
+        </button>
+
+        <div>
+          <button v-for="op in operators" v-on:click="input(op)">
+            {{ op }}
+          </button>
+        </div>
+        <button v-on:click="calculate()">=</button>
+        <button v-on:click="clear()">C</button>
+      </div>
+    </div>
+  </body>
+  <script>
+    new Vue({
+      el: "#box",
+      data: {
+        inputValue: "",
+        result: "",
+      },
+      methods: {
+        input: function (value) {
+          this.inputValue += value;
+        },
+        calculate: function () {
+          try {
+            this.result = eval(this.inputValue);
+          } catch (e) {
+            this.result = "Error";
+          }
+        },
+        clear: function () {
+          this.inputValue = "";
+          this.result = "";
+        },
+      },
+      computed: {
+        numbers: function () {
+          return [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        },
+        operators: function () {
+          return ["+", "-", "*", "/"];
+        },
+      },
+    });
+  </script>
+</html>

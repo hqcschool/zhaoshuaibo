@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./vue.js"></script>
+    <style>
+      th,
+      td {
+        width: 200px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="box">
+      <div>
+        <!-- 添加新条目的表单 -->
+        <div class="form-container">
+          <label>ID:</label>
+          <input v-model="newItem.id" type="text" />
+          <label>名字:</label>
+          <input v-model="newItem.name" type="text" />
+          <button @click="addItem">{{tx}}</button>
+        </div>
+        <!-- 表格 -->
+        <table border="1">
+          <thead>
+            <tr>
+              <th>{{topItem.id}}</th>
+              <th>{{topItem.name}}</th>
+              <th>{{topItem.cz}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- 循环渲染表格行 -->
+            <tr v-for="(item, index) in items" :key="index">
+              <td>{{ item.id }}</td>
+              <td>{{ item.name }}</td>
+
+              <td>
+                <!-- 编辑按钮 -->
+                <button @click="editItem(index)">编辑</button>
+                <!-- 删除按钮 -->
+                <button @click="deleteItem(index)">删除</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script>
+      new Vue({
+        el: "#box",
+        data: {
+          ss: "ID",
+          message: "汽车名字",
+          cz: "操作",
+        },
+        data() {
+          return {
+            tx: "添加",
+            //表头数据
+            topItem: {
+              id: "id",
+              name: "汽车名字",
+              cz: "操作",
+            },
+            // 表格数据
+            items: [
+              { id: 1, name: "BMW" },
+              { id: 2, name: "奥迪" },
+              { id: 3, name: "奔驰" },
+            ],
+            // 新条目对象和当前编辑索引
+            newItem: {
+              id: "",
+              name: "",
+            },
+            editIndex: -1,
+          };
+        },
+        methods: {
+          // 添加或编辑条目
+          addItem() {
+            console.log(1111111111111);
+            if (this.newItem.id && this.newItem.name) {
+              if (this.editIndex > -1) {
+                // 编辑模式，更新对应索引的条目
+                this.items[this.editIndex] = { ...this.newItem };
+              } else {
+                // 添加模式，将新条目推入数组
+                this.items.push({ ...this.newItem });
+              }
+              this.clearForm(); // 清空表单数据和编辑状态
+            } else {
+              alert("Please fill in all fields."); // 提示填写所有字段
+            }
+          },
+          // 编辑条目
+          editItem(index) {
+            this.newItem = { ...this.items[index] };
+            this.editIndex = index;
+            this.tx = "修改";
+          },
+          // 删除条目
+          deleteItem(index) {
+            if (confirm("Are you sure you want to delete this item?")) {
+              this.items.splice(index, 1);
+              this.clearForm(); // 清空表单数据和编辑状态
+            }
+          },
+          // 清空表单数据和编辑状态
+          clearForm() {
+            this.newItem = {
+              id: "",
+              name: "",
+            };
+            this.editIndex = -1;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
