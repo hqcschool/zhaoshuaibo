@@ -18,9 +18,9 @@
       <div>
         <!-- 添加新条目的表单 -->
         <div class="form-container">
-          <label>ID:</label>
+          <span>{{topItem.id}}:</span>
           <input v-model="newItem.id" type="text" />
-          <label>名字:</label>
+          <span>{{topItem.name}}:</span>
           <input v-model="newItem.name" type="text" />
           <button @click="addItem">{{tx}}</button>
         </div>
@@ -84,7 +84,7 @@
         methods: {
           // 添加或编辑条目
           addItem() {
-            console.log(1111111111111);
+            console.log(this.editIndex);
             if (this.newItem.id && this.newItem.name) {
               if (this.editIndex > -1) {
                 // 编辑模式，更新对应索引的条目
@@ -95,7 +95,7 @@
               }
               this.clearForm(); // 清空表单数据和编辑状态
             } else {
-              alert("Please fill in all fields."); // 提示填写所有字段
+              alert("请添加字段"); // 提示填写所有字段
             }
           },
           // 编辑条目
@@ -106,7 +106,7 @@
           },
           // 删除条目
           deleteItem(index) {
-            if (confirm("Are you sure you want to delete this item?")) {
+            if (confirm("确定删除嘛？")) {
               this.items.splice(index, 1);
               this.clearForm(); // 清空表单数据和编辑状态
             }
