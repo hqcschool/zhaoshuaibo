@@ -11,21 +11,49 @@
         width: 200px;
         text-align: center;
       }
+      #box {
+        width: 700px;
+        margin: auto;
+        text-align: center;
+      }
+      input {
+        width: 100px;
+        border: none;
+        outline: none;
+      }
+      .form-container {
+        width: 200px;
+        height: 100px;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: pink;
+        text-align: center;
+        position: absolute;
+        top: 10%;
+        left: 40%;
+      }
+      button {
+        background-color: rgb(235, 133, 145);
+        border: 1px solid rgb(236, 165, 173);
+      }
     </style>
   </head>
   <body>
     <div id="box">
+      <button style="width: 100px; height: 50px; margin: 30px" @click="tx">
+        添加按钮
+      </button>
       <div>
-        <!-- 添加新条目的表单 -->
-        <div class="form-container">
+        <!-- 添加表单 -->
+        <div class="form-container" v-if="top">
           <span>{{topItem.id}}:</span>
-          <input v-model="newItem.id" type="text" />
+          <input v-model="newItem.id" type="text" /><br /><br />
           <span>{{topItem.name}}:</span>
-          <input v-model="newItem.name" type="text" />
-          <button @click="addItem">{{tx}}</button>
+          <input v-model="newItem.name" type="text" /><br /><br />
+          <button @click="addItem">{{txs}}</button>
         </div>
         <!-- 表格 -->
-        <table border="1">
+        <table border="1" cellspacing="0">
           <thead>
             <tr>
               <th>{{topItem.id}}</th>
@@ -51,58 +79,71 @@
       </div>
     </div>
     <script>
+      let i = 1;
       new Vue({
         el: "#box",
-        data: {
-          ss: "ID",
-          message: "汽车名字",
-          cz: "操作",
-        },
+
         data() {
           return {
-            tx: "添加",
+            txs: "添加",
+            top: false,
+            ss: "ID",
+            message: "汽车",
+            cz: "操作",
+
             //表头数据
             topItem: {
               id: "id",
-              name: "汽车名字",
+              name: "汽车",
               cz: "操作",
             },
             // 表格数据
             items: [
-              { id: 1, name: "BMW" },
-              { id: 2, name: "奥迪" },
-              { id: 3, name: "奔驰" },
+              { id: i++, name: "BMW" },
+              { id: i++, name: "奥迪" },
+              { id: i++, name: "奔驰" },
             ],
-            // 新条目对象和当前编辑索引
+            // 新对象和当前编辑索引
             newItem: {
-              id: "",
+              id: i,
               name: "",
             },
             editIndex: -1,
           };
         },
         methods: {
-          // 添加或编辑条目
+          // 添加或编辑
+          tx() {
+            this.top = !this.top;
+            this.newItem.id = i++;
+            this.newItem.name = "";
+            this.txs = "添加";
+            this.editIndex = -1;
+          },
           addItem() {
             console.log(this.editIndex);
             if (this.newItem.id && this.newItem.name) {
+              this.top = !this.top;
+
               if (this.editIndex > -1) {
-                // 编辑模式，更新对应索引的条目
+                // 编辑模式，更新对应索引的
                 this.items[this.editIndex] = { ...this.newItem };
               } else {
-                // 添加模式，将新条目推入数组
+                // 添加模式，将新推入数组
                 this.items.push({ ...this.newItem });
               }
-              this.clearForm(); // 清空表单数据和编辑状态
+              this.newItem.name = ""; // 清空表单数据和编辑状态
             } else {
               alert("请添加字段"); // 提示填写所有字段
             }
           },
-          // 编辑条目
+          // 编辑
           editItem(index) {
+            this.top = !this.top;
             this.newItem = { ...this.items[index] };
             this.editIndex = index;
-            this.tx = "修改";
+            this.txs = "修改";
+            clearForm();
           },
           // 删除条目
           deleteItem(index) {

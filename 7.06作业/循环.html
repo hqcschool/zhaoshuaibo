@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./vue.js"></script>
+    <style>
+      #box {
+        width: 500px;
+        height: 400px;
+        margin: auto;
+        background-color: aquamarine;
+        text-align: center;
+      }
+      span {
+        display: inline-block;
+        height: 50px;
+        padding: 10px 200px;
+        background: white;
+        margin-top: 10px;
+      }
+      b {
+        margin-left: 20px;
+      }
+      button {
+        width: 30px;
+        height: 30px;
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="box">
+      <span>{{message}} <b v-if="a">={{res}}</b></span>
+      <br />
+      <hr />
+      <button v-for="(item,index) in arr " @click="fun(item)">{{item}}</button
+      ><br />
+      <hr />
+      <button v-for="(item,index) in fh" @click="fun(item)">{{item}}</button>
+      <button @click="fun2">=</button>
+      <button @click="fun3">清除</button>
+    </div>
+  </body>
+  <script>
+    new Vue({
+      el: "#box",
+      data: {
+        message: "",
+        res: "",
+        arr: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+        fh: ["+", "-", "*", "/"],
+        a: false,
+      },
+      methods: {
+        fun(value) {
+          this.message += value;
+        },
+        fun2() {
+          this.a = !this.a;
+
+          this.res = eval(this.message);
+        },
+        fun3() {
+          this.a = false;
+
+          (this.message = ""), (this.res = "");
+        },
+      },
+    });
+  </script>
+</html>
