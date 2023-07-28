@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../vue.js"></script>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      #box {
+        cursor: pointer;
+      }
+      #top {
+        display: flex;
+        width: 70%;
+        margin: auto;
+      }
+      dl {
+        width: 270px;
+        text-align: center;
+        margin: 20px;
+        min-height: 300px;
+        padding: 20px;
+      }
+      dl:hover {
+        border: 1px solid red;
+      }
+      dl dt img {
+        width: 270px;
+      }
+      dl dd {
+        height: 80px;
+        padding-bottom: 10px;
+        border: 1px solid rgb(230, 213, 213);
+        border-top: none;
+        text-align: center;
+      }
+      dl dd p {
+        margin-left: 20px;
+        width: 205px;
+        margin-top: 10px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        color: rgb(136, 138, 139);
+      }
+      dl .no1 {
+        background-image: linear-gradient(270deg, #e456ff 0, #ff31a3 100%);
+        background-color: #ff38c0;
+        padding: 3px;
+        color: white;
+        border-radius: 15px;
+      }
+      dl b {
+        font-size: 20px;
+      }
+      del {
+        color: rgb(230, 213, 213);
+      }
+      td {
+        width: 200px;
+        text-align: center;
+      }
+      .td1 {
+        width: 300px;
+        height: 150px;
+      }
+      .no2 {
+        display: inline-block;
+        width: 150px;
+        line-height: 20px;
+        color: rgb(136, 138, 139);
+      }
+      #inp {
+        transform: translate(0, -40px);
+      }
+      .but1 {
+        width: 30px;
+        height: 20px;
+        background-color: white;
+        border: 1px solid rgb(207, 207, 207);
+        display: inline-block;
+        margin: -3px;
+      }
+      .but2 {
+        width: 50px;
+        height: 30px;
+        background-color: white;
+        border: 1px solid rgb(207, 207, 207);
+      }
+      #boss {
+        width: 80%;
+        margin: auto;
+      }
+      table {
+        width: 100%;
+      }
+      h3 {
+        width: 180px;
+        margin-left: 10%;
+        height: 40px;
+        border-bottom: 5px solid red;
+
+        text-align: center;
+      }
+      hr {
+        width: 80%;
+        margin-left: 10%;
+      }
+      #n {
+        margin: 10px;
+        margin-left: 10%;
+        color: rgb(136, 132, 132);
+      }
+      select {
+        width: 100px;
+        height: 30px;
+        border: 1px solid red;
+        border-radius: 5px;
+        text-align: center;
+
+        outline: none;
+        margin: 30px;
+        float: left;
+      }
+      #buttom {
+        margin: 50px auto;
+        margin-bottom: 0;
+        width: 70%;
+        border: 1px solid rgb(207, 207, 207);
+        min-height: 130px;
+      }
+      .right {
+        float: right;
+        margin: 50px 20px;
+        color: rgb(136, 132, 132);
+      }
+      .ss {
+        width: 70%;
+        background-color: rgb(207, 207, 207);
+        border: 1px solid rgb(207, 207, 207);
+        min-height: 50px;
+        margin: 50px auto;
+        margin-top: 0;
+      }
+      #sp {
+        float: right;
+
+        line-height: 50px;
+        transform: translate(84%);
+        color: rgb(136, 132, 132);
+      }
+
+      .sd {
+        display: inline-block;
+        width: 100px;
+        background-color: red;
+        color: white;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="box">
+      <div id="top">
+        <dl v-for="(item,index) in items" :key="index" @dblclick="dj(index)">
+          <dt>
+            <img :src="item.url" alt="" />
+          </dt>
+          <dd>
+            <span class="no1">{{item.bt[0]}}</span>
+            <b>￥{{item.sex[0]}}</b>
+            <span><del>￥{{item.sex[1]}}</del></span>
+            <span style="color: rgb(230, 213, 213)">{{item.sex[2]}} 折</span>
+            <p>{{item.texts}}</p>
+          </dd>
+        </dl>
+      </div>
+      <div id="boss">
+        <h3>特卖商品 20：00</h3>
+        <hr />
+        <div id="n">
+          配送至<b style="color: black">郑州市</b> | 勾选商品“
+          <input
+            type="checkbox"
+          />”即可锁定库存20分钟，倒计时内不用担心商品被抢走~
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>商品</th>
+              <th>单价</th>
+              <th>数量</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- 遍历数组 -->
+            <tr v-for="(item,index) in itemss" :key="index">
+              <td class="td1">
+                <input type="checkbox" name="" id="inp" />
+                <img :src="item.url" style="width: 100px; margin-top: 50px" />
+                <span class="no2"
+                  ><div style="min-height: 80px">{{item.texts}}</div>
+                  <p style="margin-left: -60px">
+                    尺码：{{item.cm[random(0,2)]}}
+                  </p></span
+                ><br />
+              </td>
+              <td style="color: red">￥{{item.sex}}</td>
+              <td>
+                <button class="but1">-</button>
+                <button class="but1">{{item.sxx}}</button>
+                <button class="but1">+</button>
+              </td>
+              <td><button class="but2" @click="sc(index)">删除</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="buttom">
+        <div>
+          <select name="" id="" v-model="text">
+            <option value="使用优惠卷">使用优惠卷</option>
+            <option value="10">10￥</option>
+            <option value="20">20￥</option>
+            <option value="50">50￥</option>
+          </select>
+        </div>
+        <div class="right">
+          <pre>共计<b style="color: red;">{{num}}</b>件商品            <b>{{n1}}￥</b></pre>
+          <br />
+          <pre>  总金额（未含运费）   <b style="color:red">{{n1}}￥</b></pre>
+        </div>
+      </div>
+      <div class="ss">
+        <div id="sp">
+          <span>请在倒计时结束前结清 </span>
+          <b class="sd" @click="noe1">立即结算</b>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    let i = 0;
+    new Vue({
+      el: "#box",
+      data: {
+        text: "使用优惠卷",
+        num: "1",
+        n1: "68",
+
+        items: [
+          {
+            id: 0,
+            url: "./img/1.jpg",
+            bt: ["特卖价", "最新品", "刚刚上新"],
+            sex: ["68", 259, 2.6],
+            texts: "法式吊带连衣裙女夏季2023新款打底裙气质修身显瘦无袖背心裙",
+            cm: ["均码", "L", "S"],
+            sxx: 1,
+          },
+          {
+            id: 1,
+            url: "./img/2.jpg",
+            bt: ["特卖价", "最新品", "刚刚上新"],
+            sex: ["112", 469, 2.4],
+            texts:
+              "[减龄休闲背带裙] 夏季新款女牛仔裙简约透气百搭潮流女士背带裙",
+            cm: ["均码", "L", "S"],
+            sxx: 1,
+          },
+          {
+            id: 2,
+            url: "./img/3.jpg",
+            bt: ["特卖价", "最新品", "刚刚上新"],
+            sex: ["107.09", 259, 4.1],
+            texts: "[惊艳一夏] 夏方领蝴结韩版泡泡袖肌理短裙小个子纯欲连衣裙女",
+            cm: ["均码", "L", "S"],
+            sxx: 1,
+          },
+          {
+            id: 3,
+            url: "./img/4.jpg",
+            bt: ["特卖价", "最新品", "刚刚上新"],
+            sex: ["198", 1068, 1.8],
+            texts: "[拼接假两件连衣裙] 夏季收腰显瘦百搭时尚款连衣裙",
+            cm: ["均码", "L", "S"],
+            sxx: 1,
+          },
+        ],
+        itemss: [
+          {
+            id: 0,
+            url: "./img/1.jpg",
+            sex: "168",
+            texts: "法式吊带连衣裙女夏季2023新款打底裙气质修身显瘦无袖背心裙",
+            cm: ["均码", "L", "S"],
+            sxx: 1,
+          },
+        ],
+      },
+      methods: {
+        random(min, max) {
+          return Math.floor(Math.random() * (max - min + 1) + min);
+          // return Math.random() * (max - min + 1) + min;
+        },
+        dj(i) {
+          alert("添加成功");
+          let a = {
+            id: this.items[i].id,
+            url: this.items[i].url,
+            sex: this.items[i].sex[0],
+            texts: this.items[i].texts,
+            cm: ["均码", "L", "S"],
+            sxx: 1,
+          };
+          let result = this.itemss.some((item) => {
+            // 这里假设要判断的属性是id
+            return item.id === a.id;
+          });
+          console.log();
+          if (result) {
+            this.itemss[i].sxx = Number(this.itemss[i].sxx) + 1;
+            this.itemss[i].sex =
+              Math.round(Number(this.itemss[i].sex)) +
+              Math.round(Number(a.sex));
+          } else {
+            this.itemss.push(a);
+          }
+          //
+          Math.round();
+
+          let res = 0;
+          let s = 0;
+          this.itemss.forEach((element) => {
+            res += Math.round(Number(element.sex));
+            s += element.sxx;
+          });
+          this.n1 = res;
+          this.num = s;
+        },
+        //删除
+        sc(i) {
+          console.log();
+          let result = this.itemss.some((item) => {
+            // 这里假设要判断的属性是id
+            return item.id === i;
+          });
+          if (result && this.itemss[i].sxx == 1 && confirm("要删除吗")) {
+            this.itemss.splice([i], 1);
+          } else {
+            alert("数量减少了1个");
+            if (this.itemss[i].sxx > 1) {
+              this.itemss[i].sxx = Number(this.itemss[i].sxx) - 1;
+              this.itemss[i].sex =
+                Number(this.itemss[i].sex) - Number(this.items[i].sex[0]);
+            }
+          }
+        },
+        noe1() {
+          alert("需要" + this.n1 + "￥");
+        },
+      },
+      watch: {
+        text(newValue, oldValue) {
+          if (newValue == "10") {
+            this.n1 = this.n1 - 10;
+          }
+          if (newValue == "20") {
+            this.n1 = this.n1 - 20;
+          }
+          if (newValue == "50") {
+            this.n1 = this.n1 - 50;
+          }
+          console.log(this.n1);
+        },
+      },
+    });
+  </script>
+</html>
