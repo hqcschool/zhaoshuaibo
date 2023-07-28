@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./vue.js"></script>
+    <style>
+      #top {
+        width: 250px;
+        background-color: bisque;
+        padding: 60px;
+        border-radius: 3%;
+      }
+      input {
+        border: none;
+        outline: none;
+      }
+      #top button {
+        width: 100px;
+        height: 40px;
+        background-color: #31bdec;
+        border: 1px solid #31bdec;
+        color: white;
+        margin-left: 70px;
+      }
+      th,
+      td {
+        width: 200px;
+        text-align: center;
+      }
+      tbody tr:hover {
+        background-color: #ffa500;
+      }
+      .n1 {
+        background-color: yellow;
+      }
+      .n2 {
+        background-color: pink;
+      }
+      .selected-row {
+        background-color: aquamarine;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="box">
+      <div id="top">
+        姓 名： <input type="text" v-model="name" /><br /><br />
+        姓 别：
+        <select name="" id="" v-model="sex">
+          <option value="男">男</option>
+          <option value="女">女</option></select
+        ><br /><br />
+        年龄： <input type="text" v-model="age" /><br /><br />
+        <button @click="tj">提交</button><br /><br />
+      </div>
+      <select name="" id="" v-model="pxs">
+        <option value="选择一个排序字段">选择一个排序字段</option>
+        <option value="编号">编号</option>
+        <option value="年龄">年龄</option>
+      </select>
+      <select name="" id="" v-model="ps">
+        <option value="选择一个排序">选择一个排序</option>
+        <option value="升序">升序</option>
+        <option value="降序">降序</option>
+      </select>
+      <button @click="px">排序</button>
+      <!-- 表格 -->
+      <table border="1" cellspacing="0">
+        <thead>
+          <tr>
+            <th>
+              全选<input
+                type="checkbox"
+                name=""
+                id=""
+                v-model="checks"
+                @click="qx"
+              />
+            </th>
+            <th>编号</th>
+            <th>姓名</th>
+            <th>姓别</th>
+            <th>年龄</th>
+            <th style="width: 200px">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 循环渲染表格行 -->
+          <tr
+            v-for="(item, index) in items"
+            :key="index"
+            :class="[(index%2==0?'n1':'n2'),{'selected-row':item.isSelected }]"
+            :style="bg"
+          >
+            <td>
+              <input
+                type="checkbox"
+                name=""
+                id=""
+                :checked="check"
+                @click="xx(index)"
+              />
+            </td>
+            <td>{{ item.id }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.sex }}</td>
+            <td>{{ item.age }}</td>
+            <td>
+              <!-- 编辑按钮 -->
+              <button @click="prevItem(index)">上移</button>
+              <button @click="nextItem(index)">下移</button>
+              <!-- 删除按钮 -->
+              <button @click="deleteItem(index)">删除</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+  <script>
+    let i = 1;
+    new Vue({
+      el: "#box",
+      data: {
+        ps: "选择一个排序",
+        pxs: "选择一个排序字段",
+        checks: false,
+        check: false,
+        bg: {},
+        name: "",
+        sex: "",
+        age: "",
+        items: [
+          { id: i++, name: "小明", sex: "男", age: 11, isSelected: false },
+          { id: i++, name: "小子", sex: "男", age: 12, isSelected: false },
+          { id: i++, name: "小红", sex: "女", age: 18, isSelected: false },
+        ],
+      },
+      methods: {
+        // 添加
+        tj() {
+          if (this.name == "" && this.sex == "" && this.age == "") {
+            alert("缺少字段，字段必须有");
+          } else {
+            this.items.push({
+              id: i++,
+              name: this.name,
+              sex: this.sex,
+              age: this.age,
+              isSelected: false,
+            });
+
+            this.name = "";
+            this.sex = "";
+            this.age = "";
+          }
+        },
+        //上移
+        prevItem(index) {
+          if (index > 0 && index < this.items.length) {
+            let tmp = this.items.splice(index, 1)[0];
+            this.items.splice(index - 1, 0, tmp);
+          }
+          //   console.log(index);
+          //   this.items.splice(index, 1);
+        },
+        //下移
+        nextItem(index) {
+          if (index > 0 && index < this.items.length) {
+            let tmp = this.items.splice(index, 1)[0];
+            this.items.splice(index + 1, 0, tmp);
+          }
+        },
+        deleteItem(index) {
+          if (confirm("确定删除吗？")) {
+            this.items.splice(index, 1);
+          }
+        },
+        //全选
+        qx() {
+          if (!this.checks) {
+            this.check = true;
+          } else {
+            this.check = false;
+          }
+          this.items.isSelected = !this.items.isSelected;
+          if (this.items.isSelected) {
+            this.bg = {
+              backgroundColor: "#31bdec",
+            };
+            i;
+          } else {
+            this.bg = {};
+          }
+        },
+        xx(index) {
+          this.items[index].isSelected = !this.items[index].isSelected;
+          console.log(this.items);
+          // this.bg = {
+          //   backgroundColor: "#31bdec",
+          // };
+        },
+        //排序
+        px() {
+          console.log(this.pxs);
+          if (this.pxs == "编号" || this.ps == "升序") {
+            this.items.sort((a, b) => {
+              return a.id - b.id;
+            });
+          }
+          if (this.pxs == "年龄") {
+            console.log(1111111111);
+            this.items.sort((a, b) => {
+              return a.age - b.age;
+            });
+          }
+          if (this.ps == "升序") {
+            console.log(1111111111);
+            this.items.sort((a, b) => {
+              return b.id - a.id;
+            });
+          }
+        },
+      },
+      // watch: {
+      //   pxs(newValue, oldValue) {
+      //     if (newValue == "年龄") {
+      //       console.log(1111111111);
+      //       this.items.sort((a, b) => {
+      //         return a.age - b.age;
+      //       });
+      //     }
+      //   },
+      // },
+    });
+  </script>
+</html>
