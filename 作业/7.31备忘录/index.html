@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="/zhaoshuaibo/vue.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      #box {
+        min-height: 800px;
+        background-color: antiquewhite;
+      }
+      #box h1 {
+        width: 300px;
+        color: pink;
+        font-size: 100px;
+        margin: auto;
+      }
+      #app {
+        width: 400px;
+        background-color: white;
+        width: 20vw;
+        margin: auto;
+      }
+
+      #int {
+        height: 50px;
+        font-size: 20px;
+        padding-left: 30px;
+        border: none;
+        outline: none;
+      }
+      .loge {
+        margin-left: 20px;
+      }
+      pre {
+        height: 50px;
+        font-size: 20px;
+        border-top: 1px solid rgb(206, 201, 201);
+        border-bottom: 1px solid rgb(206, 201, 201);
+        line-height: 50px;
+      }
+      .ss {
+        text-decoration: line-through;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="box">
+      <h1>{{msg}}</h1>
+      <div id="app">
+        <span class="loge" style="font-size: 30px" v-show="s">∨</span>
+        <input
+          type="text"
+          placeholder="what need to be done"
+          v-model="value"
+          id="int"
+          @keyUp="key"
+        />
+        <div
+          id="no"
+          v-for="(item,index) in  arr"
+          :key="index"
+          @mouseover="item.z = true"
+          @mouseout="item.z = false"
+        >
+          <pre><input type="checkbox" @click="yc(index)" style="margin-left: 30px; width: 30px;height: 20px;border-radius: 10px;" name="" id=""> <span :class="item.myZt?'ss':''"> {{item.name}}</span> <span style="float: right;margin-right: 30px;" v-show="item.z" @click="shan1(index)">X</span></pre>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    let i = 0;
+    var vm = new Vue({
+      el: "#box",
+      data: {
+        msg: "todos",
+        value: "",
+        a: false,
+        s: false,
+        sc: false,
+        arr: [
+          {
+            id: i++,
+            name: "小明",
+            myZt: false,
+            z: false,
+          },
+        ],
+      },
+      methods: {
+        key() {
+          if (event.keyCode == 13 && this.value != "") {
+            this.arr.push({
+              id: i++,
+              name: this.value,
+              myZt: false,
+              z: false,
+            });
+            this.value = "";
+          }
+          if (this.arr.length > 0) {
+            this.s = true;
+          }
+          console.log(this.arr.length);
+        },
+
+        shan(index) {
+          this.arr[index].z = !this.arr[index].z;
+        },
+        shan1(index) {
+          this.arr.splice(index, 1);
+        },
+        yc(index) {
+          this.arr[index].myZt = !this.arr[index].myZt;
+        },
+      },
+      watch: {
+        a(index) {
+          if (this.a) {
+          }
+          console.log("message发生了改变");
+        },
+      },
+    });
+  </script>
+</html>
