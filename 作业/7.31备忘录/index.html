@@ -69,7 +69,7 @@
     <div id="box">
       <h1>{{msg}}</h1>
       <div id="app">
-        <span class="loge" v-show="s" :class=" s ? 'noe1' : '' " >∨</span>
+        <span class="loge" v-show="s" :class=" s ? 'noe1' : '' ">∨</span>
         <input
           type="text"
           placeholder="what need to be done"
@@ -114,6 +114,14 @@
       },
       methods: {
         key() {
+          let index = this.arr.length - 1;
+          i = index + 1;
+          this.arr.forEach((element) => {
+            if (element.id == i) {
+              console.log(666666666666666);
+              i += 1;
+            }
+          });
           if (event.keyCode == 13 && this.value != "") {
             this.arr.push({
               id: i++,
@@ -123,6 +131,8 @@
             });
             this.shu++;
             this.value = "";
+            localStorage.setItem("i", JSON.stringify(i));
+
             if (this.arr.length != 0) {
               this.s = true;
             } else {
@@ -200,15 +210,8 @@
           this.arr1 = JSON.parse(localStorage.getItem("todos"));
         }
         this.arr = this.arr1;
-        let index = this.arr.length - 1;
-        i = index + 1;
-        this.arr.forEach((element) => {
-          console.log(element.id);
-          if (element.id == i) {
-            console.log(666666666666666);
-            i += 1;
-          }
-        });
+        i = Number(localStorage.getItem("i"));
+        console.log(i);
       },
     });
   </script>
