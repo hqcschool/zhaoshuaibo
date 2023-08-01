@@ -13,6 +13,7 @@
       #box {
         min-height: 800px;
         background-color: rgb(245, 244, 243);
+        cursor: pointer;
       }
       #box h1 {
         width: 300px;
@@ -58,13 +59,17 @@
         border: none;
         color: rgb(212, 94, 94);
       }
+      .noe1 {
+        color: rgb(192, 193, 194);
+        font-size: 30px;
+      }
     </style>
   </head>
   <body>
     <div id="box">
       <h1>{{msg}}</h1>
       <div id="app">
-        <span class="loge" style="font-size: 30px" v-show="s">∨</span>
+        <span class="loge" v-show="s" :class=" s ? 'noe1' : '' " >∨</span>
         <input
           type="text"
           placeholder="what need to be done"
