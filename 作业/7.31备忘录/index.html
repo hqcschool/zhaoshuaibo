@@ -12,7 +12,7 @@
       }
       #box {
         min-height: 800px;
-        background-color: antiquewhite;
+        background-color: rgb(245, 244, 243);
       }
       #box h1 {
         width: 300px;
@@ -24,7 +24,9 @@
         width: 400px;
         background-color: white;
         width: 20vw;
-        margin: auto;
+        margin: 20px auto;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
+        padding: 20px;
       }
 
       #int {
@@ -46,6 +48,15 @@
       }
       .ss {
         text-decoration: line-through;
+        color: rgb(192, 193, 194);
+      }
+      #no2 {
+        margin-top: 10px;
+        color: rgb(192, 193, 194);
+      }
+      #no2 button {
+        border: none;
+        color: rgb(212, 94, 94);
       }
     </style>
   </head>
@@ -64,11 +75,19 @@
         <div
           id="no"
           v-for="(item,index) in  arr"
-          :key="index"
+          :key="item.id"
           @mouseover="item.z = true"
           @mouseout="item.z = false"
         >
-          <pre><input type="checkbox" @click="yc(index)" style="margin-left: 30px; width: 30px;height: 20px;border-radius: 10px;" name="" id=""> <span :class="item.myZt?'ss':''"> {{item.name}}</span> <span style="float: right;margin-right: 30px;" v-show="item.z" @click="shan1(index)">X</span></pre>
+          <pre><input type="checkbox" @click="yc(index)" v-model="item.myZt" style="margin-left: 30px; width: 30px;height: 20px;border-radius: 10px;" name="" id=""> <span :class="item.myZt?'ss':''"> {{item.name}}</span> <span style="float: right;margin-right: 30px;" v-show="item.z" @click="shan1(index)">X</span></pre>
+        </div>
+        <div id="no2">
+          <span style="margin-left: 30px">剩余<b>{{shu}}</b>项数据</span>
+          <button style="margin-left: 10px" @click="quan">全部数据</button>
+          <button style="margin-left: 10px" @click="No">未完成数据</button>
+          <button style="margin-left: 10px" @click="yes">已完成数据</button
+          ><br /><br />
+          <button style="margin-left: 40%" @click="chu">清除已完成数据</button>
         </div>
       </div>
     </div>
@@ -83,14 +102,10 @@
         a: false,
         s: false,
         sc: false,
-        arr: [
-          {
-            id: i++,
-            name: "小明",
-            myZt: false,
-            z: false,
-          },
-        ],
+        shu: 0,
+        arr: [],
+        tmp: [],
+        arr1: [],
       },
       methods: {
         key() {
@@ -101,12 +116,15 @@
               myZt: false,
               z: false,
             });
+            this.shu++;
             this.value = "";
+            if (this.arr.length != 0) {
+              this.s = true;
+            } else {
+              this.s = false;
+            }
           }
-          if (this.arr.length > 0) {
-            this.s = true;
-          }
-          console.log(this.arr.length);
+          localStorage.setItem("todos", JSON.stringify(this.arr));
         },
 
         shan(index) {
@@ -114,17 +132,78 @@
         },
         shan1(index) {
           this.arr.splice(index, 1);
+
+          this.shu--;
+          localStorage.setItem("todos", JSON.stringify(this.arr));
         },
         yc(index) {
-          this.arr[index].myZt = !this.arr[index].myZt;
+          this.arr1[index].myZt = !this.arr1[index].myZt;
+          this.shu--;
+          this.tmp.push(this.arr1[index]);
+          localStorage.setItem("todos", JSON.stringify(this.arr1));
+        },
+        xs() {
+          console.log(sssssssssss);
+        },
+        quan() {
+          this.arr = this.arr1;
+        },
+        No() {
+          let res = this.arr1.filter((item) => {
+            return !item.myZt;
+          });
+          console.log(res);
+          this.arr = res;
+        },
+        yes() {
+          let res = this.arr1.filter((item) => {
+            return item.myZt;
+          });
+          console.log(res);
+          this.arr = res;
+        },
+
+        chu() {
+          let res = this.arr1.filter((item) => {
+            return !item.myZt;
+          });
+          console.log(res);
+          this.arr = res;
+          localStorage.setItem("todos", JSON.stringify(this.arr));
         },
       },
       watch: {
-        a(index) {
-          if (this.a) {
-          }
-          console.log("message发生了改变");
+        // tmp() {
+        //   let res = this.arr1.filter((item) => {
+        //     return item.myZt;
+        //   });
+
+        //   this.tmp = res;
+        // },
+        arr() {
+          this.shu = this.arr.length;
         },
+      },
+      mounted() {
+        if (this.arr.length != 0) {
+          this.s = true;
+        } else {
+          this.s = false;
+        }
+        if (localStorage.getItem("todos") != null) {
+          this.arr = JSON.parse(localStorage.getItem("todos"));
+          this.arr1 = JSON.parse(localStorage.getItem("todos"));
+        }
+        this.arr = this.arr1;
+        let index = this.arr.length - 1;
+        i = index + 1;
+        this.arr.forEach((element) => {
+          console.log(element.id);
+          if (element.id == i) {
+            console.log(666666666666666);
+            i += 1;
+          }
+        });
       },
     });
   </script>
